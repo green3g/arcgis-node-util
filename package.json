@@ -9,7 +9,11 @@
   "scripts": {
     "docs": "documentation build src/index.js --format html --output docs",
     "docs-serve": "documentation serve src/index.js --watch",
-    "test": "jest"
+    "predocs-publish": "git checkout gh-pages && git merge master",
+    "docs-publish": "npm run docs && git add . && git commit -m docs && git push",
+    "postdocs-publish": "git checkout master",
+    "test": "jest",
+    "postpublish": "git push && git push --tags && npm run docs-publish"
   },
   "keywords": [],
   "author": "",
