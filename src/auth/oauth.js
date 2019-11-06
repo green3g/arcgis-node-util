@@ -8,7 +8,7 @@ const debug = require('debug')('arcgis:oauth');
 const open = require('open');
 
 /**
- * @typedef auth/oauth~AuthOptions
+ * @typedef  {Object} auth/oauth~AuthOptions
  * @property {String} appId App ID for the authenticating application.
  * @property {String} secret (optional) Secret key for authenticating application.
  * Used if you need to access credit based resources.

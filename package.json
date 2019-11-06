@@ -7,6 +7,8 @@
     "src/"
   ],
   "scripts": {
+    "docs": "documentation build src/index.js --format html --output docs",
+    "docs-serve": "documentation serve src/index.js --watch",
     "test": "jest"
   },
   "keywords": [],
