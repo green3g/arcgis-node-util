@@ -1,6 +1,6 @@
 {
   "name": "arcgis-node-util",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Utilities for arcgis and nodejs",
   "main": "src/index.js",
   "files": [
@@ -20,7 +20,6 @@
   "license": "ISC",
   "dependencies": {
     "@esri/arcgis-rest-auth": "^2.6.0",
-    "@esri/arcgis-rest-portal": "^2.6.0",
     "@esri/arcgis-rest-request": "^2.6.0",
     "debug": "^4.1.1",
     "express": "^4.17.1",
