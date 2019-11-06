@@ -7,13 +7,21 @@ const ArcGISStrategy = require('passport-arcgis').Strategy;
 const debug = require('debug')('arcgis:oauth');
 const open = require('open');
 
-
+/**
+ * @typedef auth/oauth~AuthOptions
+ * @property {String} appId App ID for the authenticating application.
+ * @property {String} secret (optional) Secret key for authenticating application.
+ * Used if you need to access credit based resources.
+ * @property {Number} port The port number for the server. Default is `3000`.
+ * @property {String} url The url for the server. Default is `http://lvh.me`.
+ * @property {String} portalUrl The url for the authenticating portal. Default is `https://maps.arcgis.com`
+ */
 const defaults = {
   appId: 'appId',
   secret: '123',
   port: 3000,
   url: 'http://lvh.me',
-  portalUrl: 'https://gregg-roemhildt.maps.arcgis.com',
+  portalUrl: 'https://maps.arcgis.com',
 };
 
 passport.serializeUser((user, done) => {
@@ -26,6 +34,14 @@ passport.deserializeUser((obj, done) => {
 
 
 /**
+ * Authenticate with arcgis portal/ago using
+ * an oauth workflow.
+ * 1. Spin up a Express app with an `/authenticate` endpoint
+ * 2. Direct user to authentication endpoint to begin oauth
+ * 3. After successful authentication, return user to `/callback` with authorization code
+ * 4. Shut down express server and return a code
+ * @function auth/oauth
+ * @param {auth/oauth~AuthOptions} options Auth options
  */
 function authenticate(options) {
   const props = {
