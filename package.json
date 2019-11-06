@@ -1,8 +1,8 @@
 {
   "name": "node-arcgis",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "description": "Utilities for arcgis and nodejs",
+  "main": "src/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -10,11 +10,22 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "husky": "^3.0.9"
+    "@esri/arcgis-rest-auth": "^2.6.0",
+    "@esri/arcgis-rest-portal": "^2.6.0",
+    "@esri/arcgis-rest-request": "^2.6.0",
+    "chalk": "^2.4.2",
+    "debug": "^4.1.1",
+    "express": "^4.17.1",
+    "isomorphic-fetch": "^2.2.1",
+    "isomorphic-form-data": "^2.0.0",
+    "open": "^7.0.0",
+    "passport": "^0.4.0",
+    "passport-arcgis": "github:roemhildtg/passport-arcgis"
   },
   "devDependencies": {
     "eslint": "^6.6.0",
     "eslint-config-airbnb-base": "^14.0.0",
-    "eslint-plugin-import": "^2.18.2"
+    "eslint-plugin-import": "^2.18.2",
+    "husky": "^3.0.9"
   }
 }
