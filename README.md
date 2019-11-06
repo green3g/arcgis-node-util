@@ -2,9 +2,17 @@
 
 ## Docs
 
+[Read the API Docs](https://roemhildtg.github.io/arcgis-node-util/docs/)
+
 Building the docs:
 ```
 npm run docs
+```
+
+## Tests
+
+```
+npm run test
 ```
 
 ## Credits
