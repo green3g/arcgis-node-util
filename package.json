@@ -1,5 +1,5 @@
 {
-  "name": "node-arcgis",
+  "name": "arcgis-node-util",
   "version": "1.0.0",
   "description": "Utilities for arcgis and nodejs",
   "main": "src/index.js",
