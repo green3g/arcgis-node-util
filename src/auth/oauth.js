@@ -41,6 +41,13 @@ passport.deserializeUser((obj, done) => {
  * 3. After successful authentication, return user to `/callback` with authorization code
  * 4. Shut down express server and return a code
  * @see https://esri.github.io/arcgis-rest-js/api/auth/UserSession/#exchangeAuthorizationCode
+ * 
+ * @example
+ * authenticate({
+ *    appId: 'XYZ123,
+ *    portalUrl: 'https://my-domain.com/portal',
+ * }).then(userSession => console.log(userSession));
+ * 
  * @function auth/oauth
  * @param {auth/oauth~AuthOptions} options Auth options
  * @returns {Promise<UserSession>}
