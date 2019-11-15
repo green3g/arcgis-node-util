@@ -56,8 +56,8 @@ function authenticate(options) {
     clientID: props.appId,
     clientSecret: props.secret,
     callbackURL: `${props.url}:${props.port}/callback`,
-    authorizationURL: `${props.portalUrl}/sharing/oauth2/authorize`,
-    tokenURL: `${props.portalUrl}/sharing/oauth2/token`,
+    authorizationURL: `${props.portalUrl}/oauth2/authorize`,
+    tokenURL: `${props.portalUrl}/oauth2/token`,
   };
 
   passport.use(new ArcGISStrategy(
@@ -90,6 +90,7 @@ function authenticate(options) {
   }).then((code) => UserSession.exchangeAuthorizationCode({
     clientId: props.appId,
     redirectUri: passportOptions.callbackURL,
+    portal: props.portalUrl,
   }, code));
 }
 
