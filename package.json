@@ -1,6 +1,6 @@
 {
   "name": "arcgis-node-util",
-  "version": "1.0.1",
+  "version": "1.3.0",
   "description": "Utilities for arcgis and nodejs",
   "main": "src/index.js",
   "files": [
@@ -13,7 +13,8 @@
     "docs-publish": "npm run docs && git add docs --force && git commit -m docs && git push",
     "postdocs-publish": "git checkout master",
     "test": "jest",
-    "postpublish": "git push && git push --tags && npm run docs-publish"
+    "postpublish": "git push && git push --tags && npm run docs-publish",
+    "preversion": "npm run test"
   },
   "keywords": [],
   "author": "",
