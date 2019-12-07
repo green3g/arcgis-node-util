@@ -32,6 +32,12 @@ passport.deserializeUser((obj, done) => {
   done(null, obj);
 });
 
+// shut down server after 500 ms
+const SUCCESS_TIMEOUT = 500;
+
+// Fail authentication after 30 s
+const REJECTION_TIMEOUT = 30000;
+
 
 /**
  * Authenticate with arcgis portal/ago using
@@ -41,13 +47,13 @@ passport.deserializeUser((obj, done) => {
  * 3. After successful authentication, return user to `/callback` with authorization code
  * 4. Shut down express server and return a code
  * @see https://esri.github.io/arcgis-rest-js/api/auth/UserSession/#exchangeAuthorizationCode
- * 
+ *
  * @example
  * authenticate({
  *    appId: 'XYZ123,
  *    portalUrl: 'https://my-domain.com/portal',
  * }).then(userSession => console.log(userSession));
- * 
+ *
  * @function auth/oauth
  * @param {auth/oauth~AuthOptions} options Auth options
  * @returns {Promise<UserSession>}
@@ -73,13 +79,24 @@ function authenticate(options) {
   ));
 
   return new Promise((resolve, reject) => {
+    // auto time out after an amount of time
+    const rejectionTimeout = setTimeout(
+      () => reject(new Error('User failed to authenticate in the required time')),
+      options.rejectionTimeout || REJECTION_TIMEOUT,
+    );
+
+    // initialize server
     let server;
     const app = express();
 
     app.use(passport.initialize());
     app.use('/authenticate', passport.authenticate('arcgis'));
     app.use('/callback', passport.authenticate('arcgis'), (result, response) => {
-      setTimeout(() => server.close(), 5000);
+      // remove rejection timeout
+      clearTimeout(rejectionTimeout);
+
+      // auto stop server in a few milliseconds
+      setTimeout(() => server.close(), options.successTimeout || SUCCESS_TIMEOUT);
 
       if (result.query.code) {
         response.send('Login successful! You may now close this page<br /><a href="#" onclick="javascript:window.close();">Close Window</a>');
@@ -89,6 +106,7 @@ function authenticate(options) {
         reject(new Error('No oauth token retrieved'));
       }
     });
+
     server = app.listen(props.port, () => {
       const endpoint = `${props.url}:${props.port}/authenticate`;
       debug(`Token app listening on ${endpoint}`);
