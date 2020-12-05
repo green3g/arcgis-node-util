@@ -14,7 +14,8 @@
     "postdocs-publish": "git checkout master",
     "test": "jest",
     "postpublish": "git push && git push --tags && npm run docs-publish",
-    "preversion": "npm run test"
+    "preversion": "npm run test",
+    "build": "tsc -p ./"
   },
   "keywords": [],
   "author": "",
@@ -28,9 +29,12 @@
     "isomorphic-form-data": "^2.0.0",
     "open": "^7.0.0",
     "passport": "^0.4.0",
-    "passport-arcgis": "github:roemhildtg/passport-arcgis"
+    "passport-arcgis": "github:roemhildtg/passport-arcgis",
+    "typescript": "^4.1.2"
   },
   "devDependencies": {
+    "@types/jest": "^26.0.16",
+    "@types/node": "^14.14.10",
     "documentation": "12.1.3",
     "eslint": "^6.6.0",
     "eslint-config-airbnb-base": "^14.0.0",

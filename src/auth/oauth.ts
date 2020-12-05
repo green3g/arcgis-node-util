@@ -1,42 +1,73 @@
 require('isomorphic-fetch');
 require('isomorphic-form-data');
-const { UserSession } = require('@esri/arcgis-rest-auth');
 const express = require('express');
 const passport = require('passport');
 const ArcGISStrategy = require('passport-arcgis').Strategy;
 const debug = require('debug')('arcgis:oauth');
-const open = require('open');
+const openBrowser = require('open');
+import {
+  UserSession
+} from "@esri/arcgis-rest-auth";
 
-/**
- * @typedef  {Object} auth/oauth~AuthOptions
- * @property {String} appId App ID for the authenticating application.
- * @property {String} secret (optional) Secret key for authenticating application.
- * Used if you need to access credit based resources.
- * @property {Number} port The port number for the server. Default is `3000`.
- * @property {String} url The url for the server. Default is `http://lvh.me`.
- * @property {String} portalUrl The url for the authenticating portal. Default is `https://maps.arcgis.com`
- */
-const defaults = {
-  appId: 'appId',
-  secret: '123',
-  port: 3000,
-  url: 'http://lvh.me',
-  portalUrl: 'https://maps.arcgis.com',
-};
 
-passport.serializeUser((user, done) => {
-  done(null, user);
-});
+export interface OauthOptions {
+  /**
+   * App ID for authenticating application 
+   */
+  appId: string;
+  /**
+   * The url for the authenticating portal (default: 'https://maps.arcgis.com')
+   */
+  portalUrl ? : string;
+  /**
+   * Port for oauth server (default: 3000)
+   */
+  port ? : number;
+  /**
+   * URL for oauth  server (default: 'http://lvh.me')
+   */
+  url ? : string;
+  /**
+   * Optional secret for authenticating app
+   */
+  secret ? : string;
+  /**
+   * Timeout (in milleseconds) to automatically kill server
+   * and reject promise (default: 30000)
+   */
+  rejectionTimeout?: number;
+  /**
+   * Timeout (in milleseconds) to automatically kill server
+   * after successful auth result (default: 500)
+   */
+  successTimeout?: number;
+}
 
-passport.deserializeUser((obj, done) => {
-  done(null, obj);
-});
 
 // shut down server after 500 ms
 const SUCCESS_TIMEOUT = 500;
 
 // Fail authentication after 30 s
 const REJECTION_TIMEOUT = 30000;
+
+const defaults: OauthOptions = {
+  appId: 'appId',
+  secret: '123',
+  port: 3000,
+  url: 'http://lvh.me',
+  portalUrl: 'https://maps.arcgis.com',
+  rejectionTimeout: REJECTION_TIMEOUT,
+  successTimeout: SUCCESS_TIMEOUT,
+};
+
+passport.serializeUser((user: any, done: any) => {
+  done(null, user);
+});
+
+passport.deserializeUser((obj: any, done: any) => {
+  done(null, obj);
+});
+
 
 
 /**
@@ -53,13 +84,10 @@ const REJECTION_TIMEOUT = 30000;
  *    appId: 'XYZ123,
  *    portalUrl: 'https://my-domain.com/portal',
  * }).then(userSession => console.log(userSession));
- *
- * @function auth/oauth
- * @param {auth/oauth~AuthOptions} options Auth options
- * @returns {Promise<UserSession>}
  */
-function authenticate(options) {
-  const props = {
+export function authenticate(options: OauthOptions): Promise < UserSession > {
+
+  const props: OauthOptions = {
     ...defaults,
     ...options,
   };
@@ -75,23 +103,31 @@ function authenticate(options) {
 
   passport.use(new ArcGISStrategy(
     passportOptions,
-    (accessToken, refreshToken, profile, done) => done(null, profile),
+    (accessToken: string, refreshToken: string, profile: any, done: any) => done(null, profile),
   ));
 
   return new Promise((resolve, reject) => {
-    // auto time out after an amount of time
-    const rejectionTimeout = setTimeout(
-      () => reject(new Error('User failed to authenticate in the required time')),
-      options.rejectionTimeout || REJECTION_TIMEOUT,
-    );
-
     // initialize server
-    let server;
+    let server: { close: () => void; };
     const app = express();
+
+
+    // auto time out after an amount of time
+    const rejectionTimeout = setTimeout(() => {
+      server.close();
+      reject(new Error('User failed to authenticate in the required time');
+    }, options.rejectionTimeout)
+
 
     app.use(passport.initialize());
     app.use('/authenticate', passport.authenticate('arcgis'));
-    app.use('/callback', passport.authenticate('arcgis'), (result, response) => {
+    app.use('/callback', passport.authenticate('arcgis'), (result: {
+      query: {
+        code: unknown;
+      };
+    }, response: {
+      send: (arg0: string) => void;
+    }) => {
       // remove rejection timeout
       clearTimeout(rejectionTimeout);
 
@@ -103,20 +139,21 @@ function authenticate(options) {
         resolve(result.query.code);
       } else {
         response.send('Error! No login code was passed');
-        reject(new Error('No oauth token retrieved'));
+        reject(new Error('No oauth token retrieved, please try again'));
       }
     });
 
     server = app.listen(props.port, () => {
       const endpoint = `${props.url}:${props.port}/authenticate`;
       debug(`Token app listening on ${endpoint}`);
-      open(endpoint);
+      openBrowser(endpoint);
     });
-  }).then((code) => UserSession.exchangeAuthorizationCode({
-    clientId: props.appId,
-    redirectUri: passportOptions.callbackURL,
-    portal: props.portalUrl,
-  }, code));
-}
 
-module.exports = authenticate;
+  }).then((code) => {
+    return UserSession.exchangeAuthorizationCode({
+      clientId: props.appId,
+      redirectUri: passportOptions.callbackURL,
+      portal: props.portalUrl,
+    }, code as string)
+  });
+}
