@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset='utf-8'>
-  <title>arcgis-node-util 1.4.0 | Documentation</title>
+  <title>arcgis-node-util 2.0.0 | Documentation</title>
   <meta name='description' content='Utilities for arcgis and nodejs'>
   <meta name='viewport' content='width=device-width,initial-scale=1'>
   <link href='assets/bass.css' rel='stylesheet'>
@@ -15,7 +15,7 @@
       <div id='split-left' class='overflow-auto fs0 height-viewport-100'>
         <div class='py1 px2'>
           <h3 class='mb0 no-anchor'>arcgis-node-util</h3>
-          <div class='mb1'><code>1.4.0</code></div>
+          <div class='mb1'><code>2.0.0</code></div>
           <input
             placeholder='Filter'
             id='filter-input'
@@ -23,26 +23,6 @@
             type='text' />
           <div id='toc'>
             <ul class='list-reset h5 py1-ul'>
-              
-                
-                <li><a
-                  href='#authoauthauthoptions'
-                  class="">
-                  auth/oauth~AuthOptions
-                  
-                </a>
-                
-                </li>
-              
-                
-                <li><a
-                  href='#authoauth'
-                  class="">
-                  auth/oauth
-                  
-                </a>
-                
-                </li>
               
             </ul>
           </div>
@@ -52,188 +32,6 @@
         </div>
       </div>
       <div id='split-right' class='relative overflow-auto height-viewport-100'>
-        
-          
-          <section class='p2 mb2 clearfix bg-white minishadow'>
-
-  
-  <div class='clearfix'>
-    
-    <h3 class='fl m0' id='authoauthauthoptions'>
-      auth/oauth~AuthOptions
-    </h3>
-    
-    
-  </div>
-  
-
-  
-    <div class='pre p1 fill-light mt0'>auth/oauth~AuthOptions</div>
-  
-    <p>
-      Type:
-      <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a>
-    </p>
-  
-  
-
-  
-  
-  
-  
-  
-  
-
-  
-
-  
-    <div class='py1 quiet mt1 prose-big'>Properties</div>
-    <div>
-      
-        <div class='space-bottom0'>
-          <span class='code bold'>appId</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">String</a>)</code>
-          : App ID for the authenticating application.
-
-          
-        </div>
-      
-        <div class='space-bottom0'>
-          <span class='code bold'>secret</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">String</a>)</code>
-          : (optional) Secret key for authenticating application.
-Used if you need to access credit based resources.
-
-          
-        </div>
-      
-        <div class='space-bottom0'>
-          <span class='code bold'>port</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">Number</a>)</code>
-          : The port number for the server. Default is 
-<code>3000</code>
-.
-
-          
-        </div>
-      
-        <div class='space-bottom0'>
-          <span class='code bold'>url</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">String</a>)</code>
-          : The url for the server. Default is 
-<code>http://lvh.me</code>
-.
-
-          
-        </div>
-      
-        <div class='space-bottom0'>
-          <span class='code bold'>portalUrl</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">String</a>)</code>
-          : The url for the authenticating portal. Default is 
-<code>https://maps.arcgis.com</code>
-
-          
-        </div>
-      
-    </div>
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-</section>
-
-          
-        
-          
-          <section class='p2 mb2 clearfix bg-white minishadow'>
-
-  
-  <div class='clearfix'>
-    
-    <h3 class='fl m0' id='authoauth'>
-      auth/oauth
-    </h3>
-    
-    
-  </div>
-  
-
-  <p>Authenticate with arcgis portal/ago using
-an oauth workflow.
-1. Spin up a Express app with an <code>/authenticate</code> endpoint
-2. Direct user to authentication endpoint to begin oauth
-3. After successful authentication, return user to <code>/callback</code> with authorization code
-4. Shut down express server and return a code</p>
-
-    <div class='pre p1 fill-light mt0'>auth/oauth(options: <a href="#authoauthauthoptions">auth/oauth~AuthOptions</a>): <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise">Promise</a>&#x3C;UserSession></div>
-  
-  
-
-  
-  
-  
-  
-  
-  
-
-  
-    <div class='py1 quiet mt1 prose-big'>Parameters</div>
-    <div class='prose'>
-      
-        <div class='space-bottom0'>
-          <div>
-            <span class='code bold'>options</span> <code class='quiet'>(<a href="#authoauthauthoptions">auth/oauth~AuthOptions</a>)</code>
-	    Auth options
-
-          </div>
-          
-        </div>
-      
-    </div>
-  
-
-  
-
-  
-    
-      <div class='py1 quiet mt1 prose-big'>Returns</div>
-      <code><a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise">Promise</a>&#x3C;UserSession></code>:
-        
-
-      
-    
-  
-
-  
-
-  
-    <div class='py1 quiet mt1 prose-big'>Example</div>
-    
-      
-      <pre class='p1 overflow-auto round fill-light'>authenticate({
-   appId: 'XYZ123,
-   portalUrl: 'https://my-domain.com/portal',
-}).then(userSession =&gt; console.log(userSession));</pre>
-    
-  
-
-  
-
-  
-
-  
-
-  
-</section>
-
-          
         
       </div>
     </div>
