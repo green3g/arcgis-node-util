@@ -1,14 +1,13 @@
-require('isomorphic-fetch');
-require('isomorphic-form-data');
-const express = require('express');
-const passport = require('passport');
-const ArcGISStrategy = require('passport-arcgis').Strategy;
-const debug = require('debug')('arcgis:oauth');
-const openBrowser = require('open');
-import {
-  UserSession
-} from "@esri/arcgis-rest-auth";
+import {Strategy as ArcGISStrategy} from 'passport-arcgis';
+import {UserSession} from "@esri/arcgis-rest-auth";
+import * as express from 'express';
+import * as passport from 'passport';
+import * as openBrowser from 'open'
 
+import 'isomorphic-fetch';
+import 'isomorphic-form-data'
+
+const debug = require('debug')('arcgis:oauth');
 
 export interface OauthOptions {
   /**
