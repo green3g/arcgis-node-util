@@ -5,6 +5,7 @@
 		"outDir": "lib",
 		"sourceMap": true,
 		"strict": true,
+		"declaration": true,
 		"rootDir": "src"
 	},
 	"exclude": ["node_modules", ".vscode-test", "lib"],
