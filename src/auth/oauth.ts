@@ -115,7 +115,7 @@ export function authenticate(options: OauthOptions): Promise < UserSession > {
     // auto time out after an amount of time
     const rejectionTimeout = setTimeout(() => {
       server.close();
-      reject(new Error('User failed to authenticate in the required time');
+      reject(new Error('User failed to authenticate in the required time'));
     }, options.rejectionTimeout)
 
 
